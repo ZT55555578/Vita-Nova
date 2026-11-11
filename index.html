@@ -179,6 +179,52 @@
     *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
     .reveal { opacity: 1; transform: none; }
   }
+
+  /* Symmetry: equal card heights and centred section headings */
+  .grid-2 > .card, .grid-3 > .card, .grid-4 > .card { height: 100%; }
+  .hero-grid > div:first-child { min-width: 0; }
+  .values-inner { max-width: 100%; }
+
+  .challenge { margin-top: 40px; }
+  .challenge-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .challenge-head span { font-weight: 600; color: var(--green-dark); }
+  .day-list { display: grid; gap: 14px; margin-top: 18px; }
+  .day-card { display: flex; align-items: center; gap: 18px; background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--green); border-radius: var(--radius); padding: 18px 20px; transition: transform .3s ease, box-shadow .3s ease; }
+  .day-card:hover { transform: translateX(4px); box-shadow: 0 10px 24px rgba(31,92,74,0.10); }
+  .day-card.done { background: var(--mint); }
+  .day-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--green); min-width: 40px; text-align: center; }
+  .day-text { flex: 1; }
+  .day-text h3 { font-size: 1.15rem; margin-bottom: 4px; }
+  .day-text p { color: var(--muted); font-size: 1rem; }
+  .day-btn { padding: 9px 18px; font-size: 0.95rem; background: #fff; color: var(--green-dark); border-color: var(--green); white-space: nowrap; }
+  .day-card.done .day-btn { background: var(--green); color: #fff; }
+  .help-box { margin-top: 36px; background: var(--mint); border-radius: var(--radius); padding: 30px; text-align: center; }
+  .help-box h3 { font-size: 1.4rem; margin-bottom: 8px; }
+  .help-box p { color: var(--muted); max-width: 620px; margin: 0 auto 18px; }
+  @media (max-width: 560px) { .day-card { flex-wrap: wrap; } .day-btn { width: 100%; } }
+
+  .timeline { margin-top: 36px; border-left: 3px solid var(--green); padding-left: 26px; display: grid; gap: 26px; }
+  .tl-item { position: relative; }
+  .tl-item::before { content: ''; position: absolute; left: -34px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: var(--green); }
+  .tl-date { display: inline-block; font-weight: 600; color: var(--green-dark); margin-bottom: 4px; }
+  .tl-item h3 { font-size: 1.2rem; }
+  .tl-item p { color: var(--muted); }
+  .tag { display: inline-block; background: var(--green); color: #fff; font-size: 0.8rem; font-weight: 600; padding: 4px 12px; border-radius: 999px; margin-bottom: 10px; }
+  .text-link { color: var(--green-dark); font-weight: 600; }
+  .checks, .crosses { list-style: none; margin-top: 12px; display: grid; gap: 10px; }
+  .checks li::before { content: '✓  '; color: var(--green); font-weight: 700; }
+  .crosses li::before { content: '✕  '; color: #b33; font-weight: 700; }
+  .card.dark { background: var(--ink); color: #fff; }
+  .card.dark h3 { color: #fff; }
+  .card.dark li { color: #fff; }
+  .team { text-align: center; }
+  .avatar { width: 70px; height: 70px; border-radius: 50%; background: var(--green); color: #fff; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; }
+  .faq { display: grid; gap: 12px; margin-top: 30px; }
+  .faq details { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 16px 20px; }
+  .faq summary { cursor: pointer; font-weight: 600; color: var(--ink); font-size: 1.08rem; list-style: none; }
+  .faq summary::after { content: '+'; float: right; font-size: 1.3rem; color: var(--green); }
+  .faq details[open] summary::after { content: '−'; }
+  .faq details p { margin-top: 10px; color: var(--muted); }
 </style>
 </head>
 <body>
@@ -193,7 +239,8 @@
       <li><a href="#comprendre">Comprendre</a></li>
       <li><a href="#actions">Actions</a></li>
       <li><a href="#defi">Défi 7 jours</a></li>
-      <li><a href="#odd">À propos</a></li>
+      <li><a href="#evenements">Événements</a></li>
+      <li><a href="#apropos">À propos</a></li>
       <li><a href="#faq">FAQ</a></li>
       <li><a href="#contact">Contact</a></li>
       <li><a href="#aide" class="help">Besoin d'aide ?</a></li>
@@ -293,6 +340,7 @@
       <span class="chip">Actions collectives pour promouvoir le respect</span>
       <span class="chip">Défi des 7 jours du respect</span>
     </div>
+    <a class="btn btn-primary" href="#defi" style="margin-top:24px">Relever le défi des 7 jours</a>
     <div class="grid-3" style="margin-top:36px">
       <div class="card"><h3>Atelier de prévention</h3><p>Des échanges interactifs pour apprendre à reconnaître et prévenir les violences.</p></div>
       <div class="card"><h3>Affiches de sensibilisation</h3><p>Des messages clairs et visuels, diffusés dans les écoles, les quartiers et les lieux publics.</p></div>
@@ -315,6 +363,142 @@
       <button class="btn btn-primary quiz-next" id="qnext" hidden>Question suivante</button>
     </div>
     <p class="quiz-note">Relevez le défi : une question par jour pendant 7 jours, pour mieux reconnaître la violence autour de vous.</p>
+    <div class="challenge">
+      <div class="challenge-head"><h3>Votre progression</h3><span id="dayCount">0 / 7 jours</span></div>
+      <div class="quiz-bar"><span id="dayBar"></span></div>
+      <div class="day-list">
+      <div class="day-card" data-day="1">
+        <div class="day-num">1</div>
+        <div class="day-text"><h3>Dire merci</h3><p>Remerciez sincèrement une personne que vous estimez.</p></div>
+        <button class="btn day-btn" type="button">Marquer relevé</button>
+      </div>
+      <div class="day-card" data-day="2">
+        <div class="day-num">2</div>
+        <div class="day-text"><h3>Écouter vraiment</h3><p>Écoutez quelqu'un jusqu'au bout, sans l'interrompre.</p></div>
+        <button class="btn day-btn" type="button">Marquer relevé</button>
+      </div>
+      <div class="day-card" data-day="3">
+        <div class="day-num">3</div>
+        <div class="day-text"><h3>Relire avant d'envoyer</h3><p>Avant d'envoyer un message en ligne, demandez-vous s'il est respectueux.</p></div>
+        <button class="btn day-btn" type="button">Marquer relevé</button>
+      </div>
+      <div class="day-card" data-day="4">
+        <div class="day-num">4</div>
+        <div class="day-text"><h3>Inclure</h3><p>Invitez une personne souvent mise à l'écart à rejoindre votre groupe.</p></div>
+        <button class="btn day-btn" type="button">Marquer relevé</button>
+      </div>
+      <div class="day-card" data-day="5">
+        <div class="day-num">5</div>
+        <div class="day-text"><h3>Ne pas rire des moqueries</h3><p>Face à une moquerie, ne riez pas et dites calmement que ce n'est pas drôle.</p></div>
+        <button class="btn day-btn" type="button">Marquer relevé</button>
+      </div>
+      <div class="day-card" data-day="6">
+        <div class="day-num">6</div>
+        <div class="day-text"><h3>Prendre des nouvelles</h3><p>Demandez à un proche comment il va, puis écoutez vraiment la réponse.</p></div>
+        <button class="btn day-btn" type="button">Marquer relevé</button>
+      </div>
+      <div class="day-card" data-day="7">
+        <div class="day-num">7</div>
+        <div class="day-text"><h3>Passer le relais</h3><p>Parlez du défi autour de vous et invitez quelqu'un à le relever.</p></div>
+        <button class="btn day-btn" type="button">Marquer relevé</button>
+      </div>
+      </div>
+      <button class="btn btn-outline" type="button" id="dayReset" style="margin-top:18px">Recommencer le défi</button>
+      <div class="help-box">
+        <h3>Et si ça ne va pas ?</h3>
+        <p>Ce défi est un outil de sensibilisation. Si vous êtes victime de violence, parlez-en à une personne de confiance. En cas de danger immédiat, contactez les secours.</p>
+        <a class="btn btn-primary" href="#aide">Voir les ressources d'aide</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="evenements">
+  <div class="container">
+    <p class="eyebrow">Calendrier</p>
+    <h2 style="margin-top:8px">Dates repères</h2>
+    <p class="lead">Journées internationales liées à la lutte contre les violences, autour desquelles nous organisons nos campagnes.</p>
+    <div class="timeline">
+      <div class="tl-item"><span class="tl-date">1er jeudi de novembre</span><div><h3>Journée internationale contre la violence et le harcèlement à l'école</h3><p>Idée d'action : exposition d'affiches et débat en classe.</p></div></div>
+      <div class="tl-item"><span class="tl-date">20 novembre</span><div><h3>Journée mondiale de l'enfance</h3><p>Idée d'action : atelier sur le droit de chacun à être protégé.</p></div></div>
+      <div class="tl-item"><span class="tl-date">25 novembre</span><div><h3>Journée internationale pour l'élimination de la violence à l'égard des femmes</h3><p>Idée d'action : campagne d'affichage et publication informative.</p></div></div>
+      <div class="tl-item"><span class="tl-date">10 décembre</span><div><h3>Journée des droits de l'homme</h3><p>Idée d'action : action collective autour du respect et de l'égalité.</p></div></div>
+      <div class="tl-item"><span class="tl-date">8 mars</span><div><h3>Journée internationale des droits des femmes</h3><p>Idée d'action : atelier contre les stéréotypes.</p></div></div>
+    </div>
+    <h3 style="margin-top:48px">Nos événements</h3>
+    <p class="lead">Les rendez-vous organisés par NOVA VITA. Complétez les dates et les lieux dès qu'ils sont confirmés.</p>
+    <div class="grid-3">
+      <div class="card"><span class="tag">Atelier</span><h3>Atelier de prévention</h3><p>Date et lieu : à venir</p><a class="text-link" href="#contact">Plus d'infos</a></div>
+      <div class="card"><span class="tag">Campagne</span><h3>Campagne d'affiches</h3><p>Date et lieu : à venir</p><a class="text-link" href="#contact">Plus d'infos</a></div>
+      <div class="card"><span class="tag">Défi</span><h3>Défi des 7 jours du respect</h3><p>Disponible en ligne, à tout moment.</p><a class="text-link" href="#defi">Relever le défi</a></div>
+    </div>
+    <div class="help-box" style="margin-top:40px">
+      <h3>Proposer un événement</h3>
+      <p>Une idée d'atelier, d'affiche ou d'action collective ? Écrivez-nous.</p>
+      <a class="btn btn-primary" href="mailto:vitanova.asso@gmail.com?subject=Proposition%20d%27%C3%A9v%C3%A9nement">Proposer une idée</a>
+    </div>
+  </div>
+</section>
+
+<section class="section-soft" id="apropos">
+  <div class="container">
+    <p class="eyebrow">À propos</p>
+    <h2 style="margin-top:8px">Pourquoi NOVA VITA ?</h2>
+    <p class="lead">« Nova vita » signifie « vie nouvelle » en latin. Ce nom exprime l'idée d'un nouveau départ : celui d'une société où chacun peut vivre en sécurité, dans le respect et la dignité. Nous sommes un projet de sensibilisation à but pédagogique.</p>
+    <div class="grid-2">
+      <div class="card"><h3>Ce que nous faisons</h3><ul class="checks"><li>Informer sur les différentes formes de violence</li><li>Prévenir par l'éducation et le dialogue</li><li>Orienter vers les ressources et services compétents</li><li>Mobiliser par des campagnes, ateliers et défis collectifs</li></ul></div>
+      <div class="card dark"><h3>Ce que nous ne faisons pas</h3><ul class="crosses"><li>Aucun service psychologique</li><li>Aucun service médical</li><li>Aucun conseil juridique</li><li>Aucune évaluation de situations personnelles</li></ul></div>
+    </div>
+    <h3 style="margin-top:52px">Nos valeurs</h3>
+    <div class="grid-4" style="margin-top:20px">
+      <div class="card"><h3>Respect</h3><p>Chaque personne a droit à la dignité, quelles que soient ses différences.</p></div>
+      <div class="card"><h3>Écoute</h3><p>Prendre le temps d'entendre, sans juger ni minimiser.</p></div>
+      <div class="card"><h3>Prévention</h3><p>Agir tôt, avant que les situations n'aggravent.</p></div>
+      <div class="card"><h3>Solidarité</h3><p>Ensemble, nous avons plus de force que chacun seul.</p></div>
+    </div>
+    <h3 style="margin-top:52px">L'équipe</h3>
+    <p class="lead">Les personnes qui font vivre NOVA VITA.</p>
+    <div class="grid-4" style="margin-top:20px">
+      <div class="card team"><div class="avatar">MH</div><h3>Président</h3><p>Moetaz Hamzaoui</p></div>
+      <div class="card team"><div class="avatar">MA</div><h3>Secrétaire général</h3><p>Mohamed Aziz Ouejheni</p></div>
+      <div class="card team"><div class="avatar">TR</div><h3>Vice-président</h3><p>Mohamed Taha Rezgui</p></div>
+      <div class="card team"><div class="avatar">EA</div><h3>Trésorière</h3><p>Eya Arabi</p></div>
+    </div>
+    <div class="grid-4" style="margin-top:20px">
+      <div class="card team"><div class="avatar">AB</div><h3>Pôle environnement</h3><p>Adem Ben Masoud</p></div>
+      <div class="card team"><div class="avatar">ND</div><h3>Communication &amp; Événementiel</h3><p>Nizar Dhib</p></div>
+      <div class="card team"><div class="avatar">AM</div><h3>Pôle social</h3><p>Areej Mrad</p></div>
+      <div class="card team"><div class="avatar">HF</div><h3>Partenariats &amp; Relations extérieures</h3><p>Hsan Frija</p></div>
+    </div>
+    <div class="help-box" style="margin-top:52px">
+      <h3>Envie de participer ?</h3>
+      <p>Rejoignez-nous, proposez une idée ou organisez une action près de chez vous.</p>
+      <a class="btn btn-primary" href="#contact">Nous contacter</a>
+      <a class="btn btn-outline" href="#defi" style="margin-left:10px">Relever le défi</a>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="container">
+    <p class="eyebrow">FAQ</p>
+    <h2 style="margin-top:8px">Questions fréquentes</h2>
+    <p class="lead">Les réponses aux questions que l'on nous pose le plus souvent.</p>
+    <div class="faq">
+      <details><summary>Qu'est-ce que NOVA VITA ?</summary><p>Un projet de sensibilisation contre les violences faites aux femmes et, plus largement, contre toutes les violences. Nous informons, prévenons et orientons.</p></details>
+      <details><summary>Proposez-vous une aide psychologique, médicale ou juridique ?</summary><p>Non. Nous ne fournissons aucun service de ce type. Nous orientons vers les professionnels compétents.</p></details>
+      <details><summary>Comment reconnaître une situation de violence ?</summary><p>La violence ne se limite pas aux coups. Insultes, contrôle, isolement, harcèlement et menaces en font partie. Consultez la section « Comprendre les violences ».</p></details>
+      <details><summary>Je suis témoin d'une violence. Que puis-je faire ?</summary><p>Parlez-en à une personne de confiance et, en cas de danger immédiat, contactez les secours.</p></details>
+      <details><summary>Le quiz peut-il évaluer ma situation personnelle ?</summary><p>Non. Le quiz est un outil pour apprendre. Il ne permet en aucun cas d'évaluer une situation personnelle.</p></details>
+      <details><summary>Comment vous écrire ?</summary><p>Utilisez le formulaire de la section Contact ou écrivez à vitanova.asso@gmail.com.</p></details>
+      <details><summary>Comment participer ou aider ?</summary><p>Relevez le défi des 7 jours, partagez nos campagnes, proposez une action ou rejoignez l'équipe.</p></details>
+    </div>
+    <div class="help-box" style="margin-top:40px">
+      <h3>Vous n'avez pas trouvé votre réponse ?</h3>
+      <p>Écrivez-nous, ou consultez la page d'aide.</p>
+      <a class="btn btn-primary" href="#contact">Nous contacter</a>
+      <a class="btn btn-outline" href="#aide" style="margin-left:10px">Besoin d'aide ?</a>
+    </div>
   </div>
 </section>
 
@@ -343,23 +527,20 @@
   </div>
 </section>
 
-<section id="temoignages">
+<section id="voix">
   <div class="container">
-    <p class="eyebrow">Témoignages et solutions</p>
-    <h2 style="margin-top:8px">Des violences qui laissent des traces</h2>
-    <p class="lead">En Tunisie, la violence contre les femmes touche toutes les classes sociales. Certaines situations se terminent par des blessures graves, un traumatisme durable, voire la mort. Derrière chaque cas, il existe aussi des parcours de sortie, et c'est ce que nous voulons faire connaître.</p>
-    <div class="grid-3">
-      <div class="card"><h3>Parler à quelqu'un</h3><p>Beaucoup de femmes ont d'abord confié leur situation à une amie, une sœur ou un proche. Ce premier soutien a souvent été le point de départ d'une démarche.</p></div>
-      <div class="card"><h3>Se faire accompagner</h3><p>Des associations, des juristes et des professionnels de santé peuvent aider à déposer plainte, à obtenir une protection et à se reconstruire.</p></div>
-      <div class="card"><h3>Se protéger d'abord</h3><p>Mettre un lieu sûr et un plan d'urgence en place est une étape essentielle, avant toute autre démarche.</p></div>
+    <p class="eyebrow">Faire entendre sa voix</p>
+    <h2 style="margin-top:8px">Les étapes pour faire valoir ses droits</h2>
+    <p class="lead">Parler de ce qu'on vit demande du courage, et chaque étape compte. Voici des pistes concrètes pour qu'une femme puisse se faire entendre et être protégée.</p>
+    <div class="grid-4">
+      <div class="card"><div class="badge">1</div><h3>Connaître ses droits</h3><p>S'informer sur la loi organique n° 2017-58 et sur les démarches existantes pour savoir ce qui est possible.</p></div>
+      <div class="card"><div class="badge">2</div><h3>Garder des traces</h3><p>Noter les faits, conserver les messages, les certificats médicaux et les témoins. Ces éléments aident à construire un dossier.</p></div>
+      <div class="card"><div class="badge">3</div><h3>Se faire accompagner</h3><p>Des associations, des juristes et des professionnels de santé peuvent écouter, orienter et soutenir dans chaque démarche.</p></div>
+      <div class="card"><div class="badge">4</div><h3>Porter sa parole</h3><p>Déposer plainte, saisir les autorités compétentes, ou témoigner publiquement, selon ce qui est juste pour soi.</p></div>
     </div>
-    <div class="aide" style="margin-top:40px;padding:30px;border-radius:14px">
-      <h3>Le cadre légal en Tunisie</h3>
-      <p class="lead" style="margin-top:8px">La loi organique n° 2017-58 du 11 août 2017 relative à l'élimination de la violence à l'égard des femmes prévoit des mesures de protection, d'accompagnement et de prévention. Pour connaître vos droits précis, rapprochez-vous d'une association ou d'un juriste.</p>
-    </div>
-    <div class="contact-box" style="margin-top:40px">
-      <h3>Partagez votre témoignage</h3>
-      <p>Si vous avez vécu une situation de violence et souhaitez raconter comment vous vous en êtes sortie, écrivez-nous à <a href="mailto:vitanova.asso@gmail.com">vitanova.asso@gmail.com</a>. Votre témoignage peut être publié de façon anonyme, uniquement avec votre accord écrit.</p>
+    <div class="quiz" style="margin-top:40px;max-width:none">
+      <h3>Une voix collective</h3>
+      <p class="lead" style="margin-top:8px">Quand les femmes s'unissent, leurs paroles pèsent davantage. Soutenir une amie, relayer une campagne, participer à un atelier de sensibilisation : chacun peut contribuer à ce que les droits de toutes les femmes soient respectés.</p>
     </div>
   </div>
 </section>
@@ -520,6 +701,32 @@
     qbar.style.width = (current / questions.length * 100) + '%';
   };
   renderQuestion();
+
+  // 7-day challenge progress (saved in this browser only, if allowed)
+  (function () {
+    const cards = document.querySelectorAll('.day-card');
+    const count = document.getElementById('dayCount');
+    const bar = document.getElementById('dayBar');
+    let done = [];
+    try { done = JSON.parse(localStorage.getItem('vitaNovaDefi') || '[]'); } catch (e) { done = []; }
+    function refresh() {
+      cards.forEach(c => {
+        const on = done.includes(c.dataset.day);
+        c.classList.toggle('done', on);
+        c.querySelector('.day-btn').textContent = on ? 'Relevé ✓' : 'Marquer relevé';
+      });
+      count.textContent = done.length + ' / 7 jours';
+      bar.style.width = (done.length / 7 * 100) + '%';
+      try { localStorage.setItem('vitaNovaDefi', JSON.stringify(done)); } catch (e) {}
+    }
+    cards.forEach(c => c.querySelector('.day-btn').addEventListener('click', () => {
+      const d = c.dataset.day;
+      done = done.includes(d) ? done.filter(x => x !== d) : [...done, d];
+      refresh();
+    }));
+    document.getElementById('dayReset').addEventListener('click', () => { done = []; refresh(); });
+    refresh();
+  })();
 </script>
 </body>
 </html>
