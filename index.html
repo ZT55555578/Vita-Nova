@@ -225,6 +225,15 @@
   .faq summary::after { content: '+'; float: right; font-size: 1.3rem; color: var(--green); }
   .faq details[open] summary::after { content: '−'; }
   .faq details p { margin-top: 10px; color: var(--muted); }
+
+  /* Symmetry: centred section headers and chips */
+  section:not(.hero) > .container > .eyebrow,
+  section:not(.hero) > .container > h2,
+  section:not(.hero) > .container > .lead { text-align: center; margin-left: auto; margin-right: auto; }
+  section:not(.hero) > .container > .lead { max-width: 720px; }
+  .chips { justify-content: center; }
+  #defi[hidden] { display: none; }
+  #defi:target { display: block; }
 </style>
 </head>
 <body>
@@ -349,7 +358,7 @@
   </div>
 </section>
 
-<section id="defi">
+<section id="defi" hidden>
   <div class="container">
     <p class="eyebrow">Défi 7 jours</p>
     <h2 style="margin-top:8px">Le saviez-vous ?</h2>
@@ -726,6 +735,18 @@
     }));
     document.getElementById('dayReset').addEventListener('click', () => { done = []; refresh(); });
     refresh();
+  })();
+
+  // Show the 7-day challenge only when its menu link or button is used
+  (function () {
+    const defi = document.getElementById('defi');
+    function route() {
+      const show = location.hash === '#defi';
+      defi.hidden = !show;
+      if (show) { defi.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    }
+    window.addEventListener('hashchange', route);
+    defi.hidden = location.hash !== '#defi';
   })();
 </script>
 </body>
