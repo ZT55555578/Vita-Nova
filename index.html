@@ -247,6 +247,10 @@
   .avatar-img { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; margin: 0 auto 14px; border: 3px solid var(--green); }
 
   select { font-family: inherit; font-size: 1.05rem; padding: 12px 14px; border: 1px solid #999; border-radius: 10px; background: #fff; width: 100%; }
+
+  .mail-result { margin-top: 20px; background: #fff; border-left: 4px solid var(--green); border-radius: 10px; padding: 18px 20px; }
+  .mail-result p { margin-bottom: 12px; }
+  .mail-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 </style>
 </head>
 <body>
@@ -473,6 +477,7 @@
         <label>Description de votre idée<textarea id="iDesc" required></textarea></label>
         <div><button class="btn btn-primary" type="submit">Envoyer l'idée</button></div>
       </form>
+      <div class="mail-result" id="ideaResult" hidden></div>
     </div>
   </div>
 </section>
@@ -595,6 +600,7 @@
         <label class="check"><input type="checkbox" required> J'accepte que mes données soient utilisées pour répondre à ma demande.</label>
         <div><button class="btn btn-primary" type="submit">Envoyer</button></div>
       </form>
+      <div class="mail-result" id="contactResult" hidden></div>
       <div class="contact-info">
         E-mail : <a href="mailto:vitanova.asso@gmail.com">vitanova.asso@gmail.com</a><br>
         Téléphone : <a href="tel:+21654470418">+216 54 470 418</a>
@@ -705,16 +711,6 @@
   });
   renderQuestion();
 
-  // Contact form: opens the user's mail app
-  document.getElementById('contactForm').addEventListener('submit', e => {
-    e.preventDefault();
-    const name = document.getElementById('cName').value.trim();
-    const email = document.getElementById('cEmail').value.trim();
-    const subject = document.getElementById('cSubject').value.trim();
-    const msg = document.getElementById('cMsg').value.trim();
-    const body = `${msg}\n\n${name ? 'Nom : ' + name + '\n' : ''}Contact : ${email}`;
-    window.location.href = `mailto:vitanova.asso@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  });
 
   // Header shadow on scroll
   const hdr = document.querySelector('header');
@@ -785,7 +781,16 @@
     defi.hidden = location.hash !== '#defi';
   })();
 
-  // Idea form: opens the user's mail app with the idea filled in
+  // Forms: no page navigation. Show the ready-to-send e-mail with a link and a copy button.
+  function showMail(box, mailto, text) {
+    box.innerHTML = '<p><strong>Votre message est prêt.</strong> Cliquez sur le bouton pour l\'envoyer depuis votre messagerie, ou copiez le texte.</p>' +
+      '<div class="mail-actions"><a class="btn btn-primary" href="' + mailto + '">Ouvrir ma messagerie</a>' +
+      '<button class="btn btn-outline" type="button" id="copyMail">Copier le texte</button></div>';
+    box.hidden = false;
+    document.getElementById('copyMail').addEventListener('click', () => {
+      try { navigator.clipboard.writeText(text); document.getElementById('copyMail').textContent = 'Copié ✓'; } catch (e) {}
+    });
+  }
   document.getElementById('ideaForm').addEventListener('submit', e => {
     e.preventDefault();
     const v = id => document.getElementById(id).value.trim();
@@ -795,7 +800,15 @@
       'Lieu et date : ' + v('iPlace') + '\n\n' +
       'Description :\n' + v('iDesc');
     const subject = 'Proposition d\'idée : ' + v('iType');
-    window.location.href = 'mailto:vitanova.asso@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    const mailto = 'mailto:vitanova.asso@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    showMail(document.getElementById('ideaResult'), mailto, body);
+  });
+  document.getElementById('contactForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const v = id => document.getElementById(id).value.trim();
+    const body = (v('cMsg')) + '\n\n' + (v('cName') ? 'Nom : ' + v('cName') + '\n' : '') + 'Contact : ' + v('cEmail');
+    const mailto = 'mailto:vitanova.asso@gmail.com?subject=' + encodeURIComponent(v('cSubject')) + '&body=' + encodeURIComponent(body);
+    showMail(document.getElementById('contactResult'), mailto, body);
   });
 </script>
 </body>
