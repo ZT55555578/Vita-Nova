@@ -460,7 +460,7 @@
     </div>
     <div class="contact-box" style="margin-top:40px;max-width:none">
       <h3>Proposer une idée</h3>
-      <p>Une idée d'atelier, d'affiche ou d'action collective ? Décrivez-la ici. Votre message s'ouvrira dans votre application e-mail, adressé à vitanova.asso@gmail.com.</p>
+      <p>Une idée d'atelier, d'affiche ou d'action collective ? Décrivez-la ici. Votre message s'ouvrira dans votre application e-mail, adressé à mohamedtaha.rezgui@esprit.tn.</p>
       <form id="ideaForm">
         <label>Nom<input type="text" id="iName" required></label>
         <label>Adresse e-mail<input type="email" id="iEmail" required></label>
@@ -800,7 +800,7 @@
       'Lieu et date : ' + v('iPlace') + '\n\n' +
       'Description :\n' + v('iDesc');
     const subject = 'Proposition d\'idée : ' + v('iType');
-    const mailto = 'mailto:vitanova.asso@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    const mailto = 'mailto:mohamedtaha.rezgui@esprit.tn?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     showMail(document.getElementById('ideaResult'), mailto, body);
   });
   document.getElementById('contactForm').addEventListener('submit', e => {
