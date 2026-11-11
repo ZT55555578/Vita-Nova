@@ -234,6 +234,15 @@
   .chips { justify-content: center; }
   #defi[hidden] { display: none; }
   #defi:target { display: block; }
+
+  .menu { flex-wrap: nowrap; gap: 16px; }
+  .menu a { white-space: nowrap; }
+  .menu .help { white-space: nowrap; }
+  @media (max-width: 1140px) {
+    .burger { display: block; }
+    .menu { display: none; position: absolute; top: 72px; left: 0; right: 0; background: #fff; flex-direction: column; padding: 20px; border-bottom: 1px solid var(--line); align-items: flex-start; }
+    .menu.open { display: flex; }
+  }
 </style>
 </head>
 <body>
@@ -737,7 +746,7 @@
     refresh();
   })();
 
-  // Show the 7-day challenge only when its menu link or button is used
+  // Show the 7-day challenge only when its menu link or button is used; clicking the menu link again hides it
   (function () {
     const defi = document.getElementById('defi');
     function route() {
@@ -746,6 +755,14 @@
       if (show) { defi.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     }
     window.addEventListener('hashchange', route);
+    document.querySelectorAll('a[href="#defi"]').forEach(a => a.addEventListener('click', e => {
+      if (!defi.hidden) {
+        e.preventDefault();
+        defi.hidden = true;
+        history.replaceState(null, '', location.pathname + location.search);
+        window.scrollTo({ top: document.getElementById('actions').offsetTop, behavior: 'smooth' });
+      }
+    }));
     defi.hidden = location.hash !== '#defi';
   })();
 </script>
